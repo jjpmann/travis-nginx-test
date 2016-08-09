@@ -37,5 +37,5 @@ before_script:
 
 script:
   - resolveip test.app
-  - ping -c 3 test.app
+
 
