@@ -2,18 +2,23 @@ language: php
 
 php:
     - 5.5
-    - 5.6
-    - 7.0
+    # - 5.6
+    # - 7.0
 
 sudo: false
 
 matrix:
   fast_finish: true
-  allow_failures:
-    - php: hhvm
+
+addons:
+  hosts:
+    - test.app
 
 cache:
   - apt
+
+services:
+  - mysql
 
 addons:
   apt:
@@ -23,8 +28,14 @@ addons:
 
 install:
 #  - composer install
-  - travis/install-nginx.sh
+  - .travis/install-nginx.sh
+  - mysql -e 'create database homestead;'
 
-script:
+before_script:
   - curl -vsf 'http://localhost:8080/hello.php' &> /dev/stdout
   - cat /tmp/error.log
+
+script:
+  - resolveip test.app
+  - ping -c 3 test.app
+
