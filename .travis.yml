@@ -34,9 +34,8 @@ install:
 before_script:
   - curl -vsf 'http://localhost:8080/hello.php' &> /dev/stdout
   - cat /tmp/error.log
-  - ifconfig | grep 'inet '
 
 script:
   - resolveip test.app
-
+  - curl -vsf 'http://test.app:8080/hello.php' &> /dev/stdout
 
